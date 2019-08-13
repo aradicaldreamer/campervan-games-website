@@ -134,13 +134,13 @@ a:focus {
 .intro {
     display: table;
     width: 100%;
-    height: auto;
-    padding: 100px 0;
+    height: 75%;
+    /* padding-bottom: 100px 0; */
     text-align: center;
     color:black;
-    /* background: url(/img/campervan_games_colored.png) no-repeat bottom center scroll; */
+    /* background: url(/img/campervan_games_colored.png) no-repeat bottom center scroll;
     background-color: {{ site.color.primary-dark }};
-    /* -webkit-background-size: cover;
+    -webkit-background-size: cover;
     -moz-background-size: cover;
     background-size: cover;
     -o-background-size: cover; */
@@ -150,24 +150,26 @@ a:focus {
     position: absolute;
     top: 50%;
     left: 50%;
-    /* min-width: 100%; */
-    /* min-height: 100%; */
+    /* min-width: 100%;
+    min-height: 100%; */
     width: 100%;
     height: auto;
     z-index: 1;
     transform: translate(-50%, -50%);
+    padding: 100px 0;
 }
 
 .intro img.background {
     position: absolute;
     top: 50%;
     left: 50%;
-    /* min-width: 100%; */
-    /* min-height: 100%; */
+    /* min-width: 100%;
+    min-height: 100%; */
     width: 100%;
     height: auto;
     z-index: -1;
     transform: translate(-50%, -50%);
+    padding: 100px 0;
 }
 
 .intro .intro-body {
