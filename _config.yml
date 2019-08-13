@@ -6,7 +6,7 @@ description: ""
 
 # Color settings (hex-codes without the leading hash-tag)
 color:
-  primary-dark: '#000000'
+  primary-dark: '#fff'
   links: '#219ab3'
 
 # Footer settings
@@ -15,9 +15,11 @@ footer: Matthew Deline, Campervan Games
 # Social networks usernames (many more available: google-plus, flickr, dribbble, pinterest, instagram, tumblr, linkedin, etc.)
 social:
   - title: twitter
-    url: https://twitter.com/mattdeline
-  # - title: facebook
-  #   url:
+    url: https://twitter.com/campervangames
+  - title: facebook
+    url: https://www.facebook.com/CampervanGames/
+  - title: instagram
+    url: 
   # - title: stack-overflow
   #   url: http://stackoverflow.com/questions/tagged/jekyll
   # - title: bitbucket
