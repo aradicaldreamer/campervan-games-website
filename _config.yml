@@ -14,12 +14,12 @@ footer: Matthew Deline, Campervan Games
 
 # Social networks usernames (many more available: google-plus, flickr, dribbble, pinterest, instagram, tumblr, linkedin, etc.)
 social:
-  - title: twitter
-    url: https://twitter.com/campervangames
+  # - title: twitter
+  #   url: https://twitter.com/campervangames
   - title: facebook
     url: https://www.facebook.com/CampervanGames/
-  - title: instagram
-    url: 
+  # - title: instagram
+  #   url: 
   # - title: stack-overflow
   #   url: http://stackoverflow.com/questions/tagged/jekyll
   # - title: bitbucket
