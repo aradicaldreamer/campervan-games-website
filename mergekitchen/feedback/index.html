@@ -130,16 +130,8 @@
     </fieldset>
 
     <fieldset>
-      <div class="row">
-        <div>
-          <label class="block" for="level">How far did you get? <span class="hint">(level)</span></label>
-          <input type="number" id="level" name="level" min="1" max="99" inputmode="numeric" placeholder="e.g. 12">
-        </div>
-        <div>
-          <label class="block" for="email">Email <span class="hint">(optional)</span></label>
-          <input type="email" id="email" name="email" placeholder="Only if you'd like a reply" autocomplete="email">
-        </div>
-      </div>
+      <label class="block" for="level">How far did you get? <span class="hint">(level)</span></label>
+      <input type="number" id="level" name="level" min="1" max="99" inputmode="numeric" placeholder="e.g. 12">
     </fieldset>
 
     <!-- Filled from the query string by the game; harmless when opened directly. -->
@@ -152,12 +144,12 @@
 
     <button class="primary" type="submit" id="submit">Send feedback</button>
     <div class="status" id="status" role="status" aria-live="polite"></div>
-    <p class="small">No account, no tracking. We only see what's on this page (plus your browser and screen size, so bugs are easier to pin down).</p>
+    <p class="small">Anonymous: no account, no email, no tracking. We only see what's on this page, plus your browser and screen size so bugs are easier to pin down.</p>
   </form>
 
   <section class="card" id="thanks" hidden>
     <h2>Got it - thank you!</h2>
-    <p>Every one of these gets read. If you left an email, we may follow up with a question or two.</p>
+    <p>Every one of these gets read.</p>
     <p><a class="button" href="https://mergekitchen.campervangames.com/">Back to the game</a></p>
   </section>
 
@@ -208,7 +200,7 @@
   // ---- collect ----
   function collect() {
     var d = {};
-    ['rating', 'mode', 'wouldPlay', 'liked', 'frustrated', 'other', 'level', 'email', 'version', 'platform', 'device', 'page'].forEach(function (k) {
+    ['rating', 'mode', 'wouldPlay', 'liked', 'frustrated', 'other', 'level', 'version', 'platform', 'device', 'page'].forEach(function (k) {
       var el = form.elements[k];
       d[k] = el ? (el.value || '').trim() : '';
     });
@@ -227,7 +219,6 @@
       'Enjoyed most:', d.liked || '-', '',
       'Confusing / frustrating / missing:', d.frustrated || '-', '',
       'Anything else:', d.other || '-', '',
-      'Reply to: ' + (d.email || '-'),
       'Device: ' + d.device
     ].join('\n');
   }
