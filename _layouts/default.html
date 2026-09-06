@@ -7,7 +7,7 @@
     <!-- {% include trailer.html %} -->
     {% include about.html %}
     {% include mergekitchen.html %}
-    <!-- {% include testimonials.html %} -->
+    {% comment %} testimonials.html does not exist yet; a Liquid include inside an HTML comment still runs and would fail the Pages build. {% include testimonials.html %} {% endcomment %}
     {% include contact.html %}
     <hr>
     {% include footer.html %}
