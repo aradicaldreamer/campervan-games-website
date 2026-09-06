@@ -36,11 +36,11 @@
   </style>
 </head>
 <body>
-  <!-- The game's own HTML on itch's CDN, not the itch.io/embed-upload widget: the widget is a
-       desktop layout with its own toolbar and does not fill a phone screen. The path is
-       <upload id>-<build id>, and the build id changes on every release, so tools/release.sh in the
-       game repo rewrites this src after each itch push. Do not edit the URL by hand. -->
-  <iframe id="game" src="https://html-classic.itch.zone/html/19108637-1951152/index.html" allow="autoplay; fullscreen; gamepad" allowfullscreen></iframe>
+  <!-- itch's embed widget. Framing the build's own CDN URL is refused by itch ("You should be
+       using itch.io") when the referring site is not itch.io, so the widget is the only itch-hosted
+       option. It is a desktop layout with a toolbar; a proper phone shell needs the build hosted
+       under our own domain - see docs/build-and-release.md in the game repo. -->
+  <iframe id="game" src="https://itch.io/embed-upload/19108637?color=54321a" allow="autoplay; fullscreen; gamepad" allowfullscreen></iframe>
   <noscript><div id="fallback">Merge Kitchen needs JavaScript. <a href="https://aradicaldreamer.itch.io/mergekitchen">Play on itch.io</a></div></noscript>
 </body>
 </html>
