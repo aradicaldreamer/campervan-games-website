@@ -1,0 +1,445 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Merge Kitchen Design Brief</title>
+  <meta name="description" content="One-page game design document for Merge Kitchen, Campervan Games' merge-and-cook prototype.">
+  <link rel="canonical" href="https://www.campervangames.com/mergekitchen/design/">
+  <link rel="icon" href="../icons/favicon-32.png" sizes="32x32">
+  <link rel="apple-touch-icon" sizes="180x180" href="../icons/apple-touch-icon.png">
+  <meta name="theme-color" content="#54321a">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600&family=Nunito:ital,wght@0,400;0,700;1,400&display=swap">
+  <style>
+    :root {
+      --paper: #f6ead3;
+      --paper-deep: #eddbb8;
+      --ink: #33200f;
+      --ink-soft: #7d6448;
+      --wood: #54321a;
+      --wood-deep: #3d2311;
+      --cream: #f5dcb0;
+      --gold: #e3a63a;
+      --gold-deep: #b97f1e;
+      --herb: #5b7a36;
+      --rule: #d9c39c;
+      color-scheme: light dark;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme="light"]) {
+        --paper: #2a1a0e;
+        --paper-deep: #362212;
+        --ink: #f5dcb0;
+        --ink-soft: #c9ae86;
+        --wood: #1c1108;
+        --wood-deep: #120a04;
+        --cream: #f5dcb0;
+        --gold: #f7c458;
+        --gold-deep: #e3a63a;
+        --herb: #9dbf6a;
+        --rule: #5a4026;
+      }
+    }
+    :root[data-theme="dark"] {
+      --paper: #2a1a0e;
+      --paper-deep: #362212;
+      --ink: #f5dcb0;
+      --ink-soft: #c9ae86;
+      --wood: #1c1108;
+      --wood-deep: #120a04;
+      --cream: #f5dcb0;
+      --gold: #f7c458;
+      --gold-deep: #e3a63a;
+      --herb: #9dbf6a;
+      --rule: #5a4026;
+    }
+
+    * { box-sizing: border-box; }
+    html { background: var(--wood-deep); }
+    body {
+      margin: 0;
+      background: var(--wood-deep);
+      color: var(--ink);
+      font: 15px/1.5 Nunito, "Segoe UI", system-ui, sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: var(--gold-deep); text-decoration-color: var(--gold); text-underline-offset: 2px; }
+    a:hover, a:focus-visible { color: var(--gold); }
+    :focus-visible { outline: 3px solid var(--gold); outline-offset: 2px; }
+
+    .sheet {
+      max-width: 1060px;
+      margin: 28px auto;
+      background: var(--paper);
+      box-shadow: 0 24px 60px rgba(0,0,0,.45);
+      border-radius: 6px;
+      overflow: hidden;
+    }
+
+    /* Title band: the counter top */
+    .band {
+      background: var(--wood);
+      color: var(--cream);
+      padding: 34px 44px 26px;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 12px 32px;
+      align-items: end;
+      border-bottom: 6px solid var(--gold);
+    }
+    .band .eyebrow {
+      font: 600 12px/1 Fredoka, sans-serif;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin: 0 0 10px;
+    }
+    .band h1 {
+      font: 600 44px/1 Fredoka, "Arial Rounded MT Bold", sans-serif;
+      margin: 0 0 8px;
+      letter-spacing: -.01em;
+      text-wrap: balance;
+    }
+    .band .tagline {
+      margin: 0;
+      font-size: 17px;
+      max-width: 60ch;
+      color: var(--cream);
+      opacity: .92;
+    }
+    .band .stamp {
+      text-align: right;
+      font-size: 13px;
+      line-height: 1.55;
+      color: var(--cream);
+      opacity: .85;
+    }
+    .band .stamp strong { color: var(--gold); font-weight: 700; }
+
+    /* Fact strip under the band */
+    .facts {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      background: var(--paper-deep);
+      border-bottom: 1px solid var(--rule);
+    }
+    .facts div {
+      padding: 12px 18px;
+      border-right: 1px solid var(--rule);
+      min-width: 0;
+    }
+    .facts div:first-child { padding-left: 44px; }
+    .facts div:last-child { border-right: 0; }
+    .facts dt {
+      font: 600 11px/1 Fredoka, sans-serif;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--ink-soft);
+      margin: 0 0 5px;
+    }
+    .facts dd { margin: 0; font-size: 14px; font-weight: 700; }
+
+    main {
+      display: grid;
+      grid-template-columns: minmax(0, 1.55fr) minmax(0, 1fr);
+      gap: 0;
+    }
+    .col { padding: 26px 44px 8px; }
+    .col + .col { border-left: 1px solid var(--rule); padding-left: 32px; padding-right: 36px; }
+
+    section { margin: 0 0 22px; }
+    h2 {
+      font: 600 13px/1 Fredoka, sans-serif;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--gold-deep);
+      margin: 0 0 8px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    h2::after { content: ""; flex: 1; height: 1px; background: var(--rule); }
+    p { margin: 0 0 8px; max-width: 68ch; }
+    p:last-child { margin-bottom: 0; }
+    ul { margin: 0; padding-left: 18px; }
+    li { margin: 0 0 4px; }
+    li::marker { color: var(--gold); }
+    strong { font-weight: 700; }
+    em { font-style: italic; }
+    .soft { color: var(--ink-soft); }
+
+    /* Core loop: five stations in a row */
+    .loop {
+      list-style: none;
+      padding: 0;
+      margin: 4px 0 0;
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 6px;
+      counter-reset: step;
+    }
+    .loop li {
+      counter-increment: step;
+      background: var(--paper-deep);
+      border: 1px solid var(--rule);
+      border-radius: 8px;
+      padding: 9px 10px 10px;
+      font-size: 13px;
+      line-height: 1.35;
+      position: relative;
+      margin: 0;
+    }
+    .loop li::before {
+      content: counter(step);
+      display: inline-grid;
+      place-items: center;
+      width: 20px; height: 20px;
+      border-radius: 50%;
+      background: var(--gold);
+      color: #33200f;
+      font: 600 11px/1 Fredoka, sans-serif;
+      margin-bottom: 6px;
+    }
+    .loop li b { display: block; font-weight: 700; margin-bottom: 2px; }
+    .loop-note { font-size: 13px; color: var(--ink-soft); margin-top: 8px; }
+
+    /* Modes: two columns, one shared frame */
+    .modes {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      border: 1px solid var(--rule);
+      border-radius: 8px;
+      overflow: hidden;
+      font-size: 13.5px;
+    }
+    .modes > div { padding: 12px 14px; }
+    .modes > div + div { border-left: 1px solid var(--rule); }
+    .modes h3 {
+      font: 600 16px/1.2 Fredoka, sans-serif;
+      margin: 0 0 6px;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .tag {
+      font: 600 10px/1 Fredoka, sans-serif;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      padding: 4px 7px;
+      border-radius: 4px;
+      background: var(--herb);
+      color: #fff;
+    }
+    .modes ul { padding-left: 16px; }
+    .modes li { margin-bottom: 3px; }
+
+    /* Fact sheet rows */
+    .kv { margin: 0; display: grid; grid-template-columns: auto 1fr; gap: 4px 12px; font-size: 13.5px; }
+    .kv dt { color: var(--ink-soft); font-weight: 700; white-space: nowrap; }
+    .kv dd { margin: 0; font-variant-numeric: tabular-nums; }
+
+    .pillars { padding-left: 0; list-style: none; }
+    .pillars li { padding-left: 14px; position: relative; margin-bottom: 6px; }
+    .pillars li::before {
+      content: ""; position: absolute; left: 0; top: .55em;
+      width: 7px; height: 7px; border-radius: 2px; background: var(--gold); transform: rotate(45deg);
+    }
+
+    footer {
+      border-top: 1px solid var(--rule);
+      background: var(--paper-deep);
+      padding: 16px 44px 20px;
+      font-size: 12.5px;
+      color: var(--ink-soft);
+      display: grid;
+      grid-template-columns: minmax(0, 1.55fr) minmax(0, 1fr);
+      gap: 24px;
+    }
+    footer p { margin: 0 0 6px; max-width: none; }
+    footer nav a { margin-right: 14px; white-space: nowrap; }
+
+    @media (max-width: 820px) {
+      .sheet { margin: 0; border-radius: 0; }
+      .band { grid-template-columns: 1fr; padding: 26px 22px 20px; }
+      .band .stamp { text-align: left; }
+      .band h1 { font-size: 36px; }
+      .facts { grid-template-columns: 1fr 1fr; }
+      .facts div:first-child { padding-left: 18px; }
+      .facts div:nth-child(2n) { border-right: 0; }
+      .facts div { border-bottom: 1px solid var(--rule); }
+      main { grid-template-columns: 1fr; }
+      .col { padding: 22px 22px 4px; }
+      .col + .col { border-left: 0; border-top: 1px solid var(--rule); padding-left: 22px; padding-right: 22px; }
+      .loop { grid-template-columns: 1fr 1fr; }
+      .loop li:last-child { grid-column: 1 / -1; }
+      .modes { grid-template-columns: 1fr; }
+      .modes > div + div { border-left: 0; border-top: 1px solid var(--rule); }
+      footer { grid-template-columns: 1fr; padding: 16px 22px 20px; }
+    }
+
+    @media print {
+      @page { size: A4; margin: 10mm; }
+      html, body { background: #fff; }
+      :root { --paper: #fff; --paper-deep: #f3ead9; --wood: #54321a; --rule: #d9c39c; }
+      .sheet { margin: 0; box-shadow: none; border-radius: 0; max-width: none; }
+      body { font-size: 11.5px; }
+      .band { padding: 18px 24px 14px; }
+      .band h1 { font-size: 30px; }
+      .band .tagline { font-size: 13px; }
+      .col { padding: 14px 24px 0; }
+      section { margin-bottom: 12px; }
+      .loop li, .modes, .kv, footer { font-size: 10.5px; }
+      a { color: inherit; text-decoration: none; }
+      footer nav a::after { content: " (" attr(href) ")"; font-size: 9px; }
+    }
+  </style>
+</head>
+<body>
+<div class="sheet">
+
+  <header class="band">
+    <div>
+      <p class="eyebrow">Campervan Games · Game design brief</p>
+      <h1>Merge Kitchen</h1>
+      <p class="tagline">A cosy merge-and-cook game about travel and good food. Grow ingredients on the board, cook at your stations, and feed the regulars who drop by.</p>
+    </div>
+    <div class="stamp">
+      <strong>Prototype v0.1</strong> · September 2026<br>
+      Working title; final name to be decided<br>
+      Design and direction: Matthew Deline
+    </div>
+  </header>
+
+  <dl class="facts">
+    <div><dt>Genre</dt><dd>Merge-2 cooking puzzle</dd></div>
+    <div><dt>Platform</dt><dd>Mobile, portrait. Web now; iOS and Android later</dd></div>
+    <div><dt>Session</dt><dd>Two to ten minutes, many times a day</dd></div>
+    <div><dt>Audience</dt><dd>Casual puzzle players who love food and travel</dd></div>
+    <div><dt>Status</dt><dd>Playable demo, 38 levels, two worlds</dd></div>
+  </dl>
+
+  <main>
+    <div class="col">
+
+      <section>
+        <h2>Concept</h2>
+        <p>You run a small kitchen on the road. Every world is a destination with its own cuisine: its ingredients, its dishes, and the people who come in hungry. The board is where ingredients grow, the stations are where they become food, and the order row is who you are cooking for.</p>
+        <p>The long-term vision is <em>Parts Unknown</em> or <em>Somebody Feeds Phil</em> as a merge game: each place is about the people as much as the food. The demo carries the food; the characters and their stories are the next layer.</p>
+      </section>
+
+      <section>
+        <h2>Design pillars</h2>
+        <ul class="pillars">
+          <li><strong>Every merge means something.</strong> Chains are real culinary progressions (flour to dough to fresh pasta to puff pastry), and dishes are cooked from them in exact recipes, so the board reads as a pantry rather than an abstract puzzle.</li>
+          <li><strong>Cosy first, pressured by choice.</strong> The default loop never punishes slow play. Pressure is an opt-in mode, not a timer on every order.</li>
+          <li><strong>Destinations, not just levels.</strong> Worlds are places to travel to, with their own food and their own souvenirs to bring home.</li>
+          <li><strong>Everything is swappable.</strong> Content lives in a workbook and drop-in art files, so a real artist and a new cuisine slot in without re-engineering.</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2>Core loop</h2>
+        <ol class="loop">
+          <li><b>Tap a generator</b>Spend 1 energy to spawn a tier-1 ingredient from that generator's chains.</li>
+          <li><b>Merge pairs</b>Drag two identical items together to make the next tier; every chain climbs 8 tiers.</li>
+          <li><b>Cook at a station</b>Drop the recipe's ingredients into a station, tap Cook, and wait out the timer.</li>
+          <li><b>Deliver</b>Match a customer's order to earn coins, gems and mission progress.</li>
+          <li><b>Unlock</b>Finish the level's ten orders to open the next level and collect its new generator.</li>
+        </ol>
+        <p class="loop-note">The board is a 7 by 9 grid and persists across levels, so a kitchen you have built keeps paying off. Items can be swapped, parked in the inventory, or deleted with a four-second undo. Energy refills at one point every two minutes to a cap of 100, and keeps refilling while the game is closed, as do cooks in progress.</p>
+      </section>
+
+      <section>
+        <h2>Two ways to play</h2>
+        <div class="modes">
+          <div>
+            <h3>Casual</h3>
+            <ul>
+              <li>Energy gates generator taps; waiting or refilling is the pacing.</li>
+              <li>Five stations, full cook times, unlimited time per order.</li>
+              <li>All ten of a level's orders are visible and can be worked in any order.</li>
+              <li>Progress, board, inventory and station timers all save.</li>
+            </ul>
+          </div>
+          <div>
+            <h3>Rush <span class="tag">Prototype</span></h3>
+            <ul>
+              <li>Energy is free. Generators spawn on their own every 4 seconds, staggered, and speed up with every delivery to three times the base rate.</li>
+              <li>Nothing can be deleted or stashed. A full board for 3 seconds loses the level.</li>
+              <li>Two stations, cook times cut to a quarter, 40 orders per level, five shown at a time.</li>
+              <li>Stations only accept ingredients an active order needs, so there is no hiding.</li>
+            </ul>
+          </div>
+        </div>
+        <p class="loop-note">Rush is the current default for playtesting because it is the more surprising of the two. New players choose a mode from the Hub; the question of which one leads is open.</p>
+      </section>
+
+    </div>
+
+    <div class="col">
+
+      <section>
+        <h2>Content in the demo</h2>
+        <dl class="kv">
+          <dt>Worlds</dt><dd>Breakfast &amp; Bakery (18 levels), Barbecue (20 levels)</dd>
+          <dt>Orders</dt><dd>380 across 38 levels, ten per level</dd>
+          <dt>Chains</dt><dd>20 ingredient chains, 8 tiers each</dd>
+          <dt>Recipes</dt><dd>80 dishes, up to 6 ingredients, exact match</dd>
+          <dt>Generators</dt><dd>10 themed sources (Pantry, Fridge &amp; Deli, Brew Bar, Grill Basket, Bar Cart...)</dd>
+          <dt>Customers</dt><dd>10 regulars with portraits, dealt so no level repeats a face</dd>
+        </dl>
+      </section>
+
+      <section>
+        <h2>Economy</h2>
+        <dl class="kv">
+          <dt>Energy</dt><dd>The pacing currency. Spent per generator tap; regenerates over time.</dd>
+          <dt>Coins</dt><dd>Earned per order. Planned sink: tickets to unlock new levels and worlds.</dd>
+          <dt>Gems</dt><dd>Premium currency, earned from some orders. Store and purchases not yet designed.</dd>
+        </dl>
+        <p class="loop-note">No monetisation is built. Paid cook-skips and energy refills exist in the reference games and are deliberately unbuilt until the loop is settled.</p>
+      </section>
+
+      <section>
+        <h2>Progression and meta</h2>
+        <ul>
+          <li><strong>Levels</strong> unlock in sequence today. Each is an order queue plus a new generator, collected from a widget onto the board.</li>
+          <li><strong>Restaurant Goals</strong>: a weekly, calendar-aligned mission set with a milestone reward track, shared by every player.</li>
+          <li><strong>Hub</strong>: profile with chef name and avatar, mode select, and placeholders for World Select, Recipes and Mail.</li>
+          <li><strong>Planned</strong>: worlds as destinations with their own persistent board, coin tickets that let players pick their route, and a souvenir per world as a profile badge or collection. The grid, stations and customer cast stay shared across worlds to keep each new destination cheap to make.</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2>References</h2>
+        <p><em>flambé: merge and cook</em> and <em>Foodstars: Merge &amp; Cook</em> set the loop and screen layout. <em>Tasty Travels</em> shares the travel premise; the people-centred destinations are the intended difference.</p>
+      </section>
+
+      <section>
+        <h2>Open questions</h2>
+        <ul>
+          <li>Casual or Rush as the headline mode, and whether the last level loops or ends.</li>
+          <li>Does an order need a visible satisfaction value feeding a pass track, as the references have?</li>
+          <li>World select, tickets and souvenirs: build before or after the demo goes out?</li>
+          <li>Characters and dialogue, which the theme depends on and nothing yet supports.</li>
+        </ul>
+      </section>
+
+    </div>
+  </main>
+
+  <footer>
+    <div>
+      <p>This prototype is a solo project built with AI assistance: the code was written together with Claude, Anthropic's AI model, from Matthew's design and direction, and the placeholder art, characters and icons are generative-AI output. The full game will use 100% human-made assets on this code foundation. Funding for that version is not open yet; pitch materials will be linked from the Merge Kitchen page when it is.</p>
+    </div>
+    <nav>
+      <a href="https://mergekitchen.campervangames.com/">Play the demo</a>
+      <a href="https://aradicaldreamer.itch.io/mergekitchen" rel="noopener">On itch.io</a>
+      <a href="/#play">Campervan Games</a>
+      <a href="mailto:contact@campervangames.com">Feedback</a>
+    </nav>
+  </footer>
+
+</div>
+</body>
+</html>
