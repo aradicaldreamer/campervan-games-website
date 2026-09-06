@@ -3,44 +3,17 @@
 <head>
   <meta charset="utf-8">
   <title>Merge Kitchen</title>
-  <!-- viewport-fit=cover lets the game run under the notch in a home-screen launch; the
-       iframe below keeps to the safe area so nothing important sits under it. -->
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
-  <meta name="theme-color" content="#54321a">
-
-  <!-- iOS home-screen ("web clip") settings. Safari reads these from THIS page, which is why the
-       page exists: itch's project page declares none, so a clip of it gets a screenshot icon. -->
+  <!-- The play page moved to its own subdomain, where the build is self-hosted and can carry the
+       home-screen icon itself (itch refuses off-site framing of its build). This page stays only
+       so links and home-screen clips made against the old address keep working. -->
+  <meta http-equiv="refresh" content="0; url=https://mergekitchen.campervangames.com/">
+  <link rel="canonical" href="https://mergekitchen.campervangames.com/">
   <link rel="apple-touch-icon" sizes="180x180" href="icons/apple-touch-icon.png">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="apple-mobile-web-app-title" content="Merge Kitchen">
-
-  <!-- Android / desktop -->
-  <link rel="manifest" href="manifest.webmanifest">
-  <link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png">
-
-  <style>
-    html, body { margin: 0; height: 100%; background: #54321a; overflow: hidden; }
-    /* Fill the screen but respect the notch / home indicator. */
-    #game {
-      position: fixed;
-      top: env(safe-area-inset-top, 0);
-      left: env(safe-area-inset-left, 0);
-      right: env(safe-area-inset-right, 0);
-      bottom: env(safe-area-inset-bottom, 0);
-      width: auto; height: auto;
-      border: 0; background: #54321a;
-    }
-    #fallback { color: #f5dcb0; font: 16px system-ui, sans-serif; text-align: center; padding-top: 40vh; }
-    #fallback a { color: #f7c458; }
-  </style>
+  <meta name="theme-color" content="#54321a">
+  <style>html,body{margin:0;height:100%;background:#54321a;color:#f5dcb0;font:16px system-ui,sans-serif;text-align:center}p{padding-top:40vh}a{color:#f7c458}</style>
 </head>
 <body>
-  <!-- itch's embed widget. Framing the build's own CDN URL is refused by itch ("You should be
-       using itch.io") when the referring site is not itch.io, so the widget is the only itch-hosted
-       option. It is a desktop layout with a toolbar; a proper phone shell needs the build hosted
-       under our own domain - see docs/build-and-release.md in the game repo. -->
-  <iframe id="game" src="https://itch.io/embed-upload/19108637?color=54321a" allow="autoplay; fullscreen; gamepad" allowfullscreen></iframe>
-  <noscript><div id="fallback">Merge Kitchen needs JavaScript. <a href="https://aradicaldreamer.itch.io/mergekitchen">Play on itch.io</a></div></noscript>
+  <p>Merge Kitchen has moved to <a href="https://mergekitchen.campervangames.com/">mergekitchen.campervangames.com</a>.</p>
+  <script>location.replace("https://mergekitchen.campervangames.com/");</script>
 </body>
 </html>
