@@ -1,0 +1,288 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Merge Kitchen feedback</title>
+  <meta name="description" content="Tell us what you thought of the Merge Kitchen demo.">
+  <meta name="robots" content="noindex">
+  <meta name="theme-color" content="#54321a">
+  <link rel="icon" href="../icons/favicon-32.png" sizes="32x32">
+  <link rel="apple-touch-icon" sizes="180x180" href="../icons/apple-touch-icon.png">
+  <!--
+    Self-hosted feedback form for the Merge Kitchen demo. The game opens this page from its
+    end-of-game screen with ?mode=casual|rush&level=N&v=<version>&platform=<platform>, which
+    pre-fills the context fields below.
+
+    GitHub Pages is static, so the page itself cannot receive a submission - it POSTs to whatever
+    address is in data-endpoint on the <form>. See README.md in this folder: a Google Apps Script
+    bound to a Sheet (apps-script.gs) is the zero-cost receiver, and a Formspree form address
+    works unchanged. With no endpoint set, the page falls back to a pre-filled email.
+  -->
+  <style>
+    :root {
+      --bg: #54321a; --bg-deep: #3d2311; --card: #f5dcb0; --card-edge: #e6c391;
+      --ink: #3a2410; --ink-soft: #6b4a2b; --gold: #f7c458; --gold-deep: #d9a02f;
+      --field: #fff6e6; --ok: #4f7d3a; --warn: #a63d2a;
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; background: var(--bg); color: var(--card); font: 17px/1.45 -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+    body { padding: 24px 16px 48px; background: radial-gradient(circle at 50% -10%, #7a4b26 0%, var(--bg) 55%, var(--bg-deep) 100%); min-height: 100%; }
+    main { max-width: 560px; margin: 0 auto; }
+    header { text-align: center; margin-bottom: 18px; }
+    header h1 { font-size: 28px; margin: 0 0 6px; color: var(--gold); letter-spacing: .3px; }
+    header p { margin: 0; color: var(--card); opacity: .9; }
+    .context { display: inline-block; margin-top: 10px; padding: 6px 12px; border-radius: 999px; background: rgba(0,0,0,.25); font-size: 14px; color: var(--card); }
+    .context:empty { display: none; }
+    form, .card { background: var(--card); color: var(--ink); border-radius: 18px; padding: 20px 18px; box-shadow: 0 10px 30px rgba(0,0,0,.35), inset 0 0 0 3px var(--card-edge); }
+    fieldset { border: 0; padding: 0; margin: 0 0 22px; }
+    legend, label.block { display: block; font-weight: 700; margin-bottom: 8px; color: var(--ink); }
+    .hint { font-weight: 400; color: var(--ink-soft); font-size: 14px; }
+    textarea, input[type=text], input[type=email], input[type=number] {
+      width: 100%; font: inherit; color: var(--ink); background: var(--field); border: 2px solid var(--card-edge);
+      border-radius: 12px; padding: 12px; outline: none;
+    }
+    textarea { min-height: 96px; resize: vertical; }
+    textarea:focus, input:focus { border-color: var(--gold-deep); box-shadow: 0 0 0 3px rgba(247,196,88,.35); }
+    .stars { display: flex; gap: 6px; }
+    .stars input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+    .stars label { flex: 1; text-align: center; font-size: 34px; line-height: 1; padding: 8px 0; border-radius: 12px; background: var(--field); border: 2px solid var(--card-edge); cursor: pointer; color: #c9b08a; user-select: none; }
+    .stars label span { display: block; font-size: 12px; margin-top: 4px; color: var(--ink-soft); }
+    .stars input:checked + label, .stars label.lit { color: var(--gold-deep); background: #fff0cc; border-color: var(--gold-deep); }
+    .stars input:focus-visible + label { box-shadow: 0 0 0 3px rgba(247,196,88,.5); }
+    .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+    .chips input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+    .chips label { padding: 10px 16px; border-radius: 999px; background: var(--field); border: 2px solid var(--card-edge); cursor: pointer; font-weight: 600; }
+    .chips input:checked + label { background: var(--gold); border-color: var(--gold-deep); color: var(--ink); }
+    .chips input:focus-visible + label { box-shadow: 0 0 0 3px rgba(247,196,88,.5); }
+    .row { display: flex; gap: 12px; }
+    .row > * { flex: 1; }
+    button.primary { width: 100%; font: inherit; font-weight: 800; font-size: 19px; padding: 16px; border: 0; border-radius: 999px; background: var(--gold); color: var(--ink); cursor: pointer; box-shadow: 0 4px 0 var(--gold-deep); }
+    button.primary:active { transform: translateY(2px); box-shadow: 0 2px 0 var(--gold-deep); }
+    button.primary[disabled] { opacity: .6; cursor: wait; }
+    a.button { display: block; text-align: center; text-decoration: none; font-weight: 800; font-size: 19px; padding: 16px; border-radius: 999px; background: var(--gold); color: var(--ink); box-shadow: 0 4px 0 var(--gold-deep); }
+    .small { font-size: 13px; color: var(--ink-soft); margin: 14px 0 0; text-align: center; }
+    .hp { position: absolute; left: -9999px; top: -9999px; }
+    .status { margin-top: 14px; font-weight: 600; text-align: center; }
+    .status.ok { color: var(--ok); } .status.warn { color: var(--warn); }
+    .card h2 { margin: 0 0 8px; color: var(--ink); }
+    .card p { margin: 0 0 14px; }
+    .card textarea { min-height: 160px; font-size: 14px; }
+    footer { text-align: center; margin-top: 22px; font-size: 14px; opacity: .8; }
+    footer a { color: var(--gold); }
+    [hidden] { display: none !important; }
+  </style>
+</head>
+<body>
+<main>
+  <header>
+    <h1>Thanks for playing Merge Kitchen</h1>
+    <p>It's an early demo, and what you tell us here shapes what gets built next. Two minutes is plenty.</p>
+    <div class="context" id="context"></div>
+  </header>
+
+  <form id="feedback" data-endpoint="" novalidate>
+    <!-- data-endpoint: paste your Apps Script web-app URL or Formspree form address here.
+         Empty = fall back to a pre-filled email. -->
+
+    <fieldset>
+      <legend>How was it overall?</legend>
+      <div class="stars" id="stars">
+        <input type="radio" name="rating" id="r1" value="1"><label for="r1">★<span>Not for me</span></label>
+        <input type="radio" name="rating" id="r2" value="2"><label for="r2">★<span></span></label>
+        <input type="radio" name="rating" id="r3" value="3"><label for="r3">★<span>OK</span></label>
+        <input type="radio" name="rating" id="r4" value="4"><label for="r4">★<span></span></label>
+        <input type="radio" name="rating" id="r5" value="5"><label for="r5">★<span>Loved it</span></label>
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <legend>Which mode did you play? <span class="hint">(Casual is the relaxed one; Rush is the one with generators on a timer.)</span></legend>
+      <div class="chips">
+        <input type="radio" name="mode" id="m-casual" value="casual"><label for="m-casual">Casual</label>
+        <input type="radio" name="mode" id="m-rush" value="rush"><label for="m-rush">Rush</label>
+        <input type="radio" name="mode" id="m-both" value="both"><label for="m-both">Both</label>
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <legend>Would you play a full version?</legend>
+      <div class="chips">
+        <input type="radio" name="wouldPlay" id="p-yes" value="yes"><label for="p-yes">Yes</label>
+        <input type="radio" name="wouldPlay" id="p-maybe" value="maybe"><label for="p-maybe">Maybe</label>
+        <input type="radio" name="wouldPlay" id="p-no" value="no"><label for="p-no">Probably not</label>
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <label class="block" for="liked">What did you enjoy most?</label>
+      <textarea id="liked" name="liked" placeholder="A moment, a mechanic, a dish, a character..."></textarea>
+    </fieldset>
+
+    <fieldset>
+      <label class="block" for="frustrated">What was confusing, frustrating, or missing?</label>
+      <textarea id="frustrated" name="frustrated" placeholder="Be blunt - this is the useful part."></textarea>
+    </fieldset>
+
+    <fieldset>
+      <label class="block" for="other">Anything else?</label>
+      <textarea id="other" name="other" placeholder="Ideas, bugs, comparisons to games you like..."></textarea>
+    </fieldset>
+
+    <fieldset>
+      <div class="row">
+        <div>
+          <label class="block" for="level">How far did you get? <span class="hint">(level)</span></label>
+          <input type="number" id="level" name="level" min="1" max="99" inputmode="numeric" placeholder="e.g. 12">
+        </div>
+        <div>
+          <label class="block" for="email">Email <span class="hint">(optional)</span></label>
+          <input type="email" id="email" name="email" placeholder="Only if you'd like a reply" autocomplete="email">
+        </div>
+      </div>
+    </fieldset>
+
+    <!-- Filled from the query string by the game; harmless when opened directly. -->
+    <input type="hidden" name="version" id="version">
+    <input type="hidden" name="platform" id="platform">
+    <input type="hidden" name="device" id="device">
+    <input type="hidden" name="page" id="page">
+    <!-- Honeypot: bots fill everything, people never see it. -->
+    <div class="hp" aria-hidden="true"><label>Website <input type="text" name="website" tabindex="-1" autocomplete="off"></label></div>
+
+    <button class="primary" type="submit" id="submit">Send feedback</button>
+    <div class="status" id="status" role="status" aria-live="polite"></div>
+    <p class="small">No account, no tracking. We only see what's on this page (plus your browser and screen size, so bugs are easier to pin down).</p>
+  </form>
+
+  <section class="card" id="thanks" hidden>
+    <h2>Got it - thank you!</h2>
+    <p>Every one of these gets read. If you left an email, we may follow up with a question or two.</p>
+    <p><a class="button" href="https://mergekitchen.campervangames.com/">Back to the game</a></p>
+  </section>
+
+  <section class="card" id="fallback" hidden>
+    <h2 id="fallback-title">Send it by email instead</h2>
+    <p id="fallback-body">Your answers are in the message below - just hit send.</p>
+    <p><a class="button" id="mailto" href="#">Open in your email app</a></p>
+    <p class="small">Or copy this and send it to <a href="mailto:contact@campervangames.com">contact@campervangames.com</a>:</p>
+    <textarea id="copy" readonly></textarea>
+  </section>
+
+  <footer>Merge Kitchen is a <a href="https://www.campervangames.com/">Campervan Games</a> prototype.</footer>
+</main>
+
+<script>
+(function () {
+  var form = document.getElementById('feedback');
+  var endpoint = (form.dataset.endpoint || '').trim();
+  var q = new URLSearchParams(location.search);
+  var EMAIL = 'contact@campervangames.com';
+
+  // ---- pre-fill from the game's query string ----
+  var mode = (q.get('mode') || '').toLowerCase();
+  var level = q.get('level') || '';
+  var version = q.get('v') || '';
+  var platform = q.get('platform') || '';
+  if (mode === 'casual' || mode === 'rush') document.getElementById('m-' + mode).checked = true;
+  if (/^\d+$/.test(level)) document.getElementById('level').value = level;
+  document.getElementById('version').value = version;
+  document.getElementById('platform').value = platform;
+  document.getElementById('device').value = navigator.userAgent + ' | ' + screen.width + 'x' + screen.height + ' @' + (window.devicePixelRatio || 1);
+  document.getElementById('page').value = location.href;
+
+  var bits = [];
+  if (mode) bits.push(mode.charAt(0).toUpperCase() + mode.slice(1) + ' mode');
+  if (level) bits.push('level ' + level);
+  if (version) bits.push('v' + version);
+  document.getElementById('context').textContent = bits.length ? 'You played: ' + bits.join(' · ') : '';
+
+  // ---- star hover/lit state ----
+  var stars = document.getElementById('stars');
+  function paint(upTo) {
+    var labels = stars.querySelectorAll('label');
+    for (var i = 0; i < labels.length; i++) labels[i].classList.toggle('lit', i < upTo);
+  }
+  stars.addEventListener('change', function () { var v = form.rating.value; paint(v ? +v : 0); });
+
+  // ---- collect ----
+  function collect() {
+    var d = {};
+    ['rating', 'mode', 'wouldPlay', 'liked', 'frustrated', 'other', 'level', 'email', 'version', 'platform', 'device', 'page'].forEach(function (k) {
+      var el = form.elements[k];
+      d[k] = el ? (el.value || '').trim() : '';
+    });
+    d.submittedAt = new Date().toISOString();
+    return d;
+  }
+  function asText(d) {
+    return [
+      'Merge Kitchen feedback',
+      'Rating: ' + (d.rating || '-') + '/5',
+      'Mode: ' + (d.mode || '-'),
+      'Would play a full version: ' + (d.wouldPlay || '-'),
+      'Reached level: ' + (d.level || '-'),
+      'Version: ' + (d.version || '-') + '  Platform: ' + (d.platform || '-'),
+      '',
+      'Enjoyed most:', d.liked || '-', '',
+      'Confusing / frustrating / missing:', d.frustrated || '-', '',
+      'Anything else:', d.other || '-', '',
+      'Reply to: ' + (d.email || '-'),
+      'Device: ' + d.device
+    ].join('\n');
+  }
+
+  // ---- send ----
+  function send(d) {
+    var isFormspree = /formspree\.io/.test(endpoint);
+    var opts = { method: 'POST', body: JSON.stringify(d) };
+    // Formspree wants JSON headers (and answers the CORS preflight they cause). Apps Script does
+    // not: a text/plain body is a "simple" request that needs no preflight, which Apps Script
+    // cannot serve. Keep the body identical either way.
+    if (isFormspree) opts.headers = { 'Content-Type': 'application/json', 'Accept': 'application/json' };
+    return fetch(endpoint, opts).then(function (r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r; });
+  }
+
+  function showFallback(d, failed) {
+    var text = asText(d);
+    document.getElementById('fallback-title').textContent = failed ? "That didn't go through - email it instead?" : 'Send it by email';
+    document.getElementById('fallback-body').textContent = failed
+      ? "The form couldn't reach us just now. Your answers are in the message below - just hit send."
+      : 'Your answers are in the message below - just hit send.';
+    document.getElementById('mailto').href = 'mailto:' + EMAIL + '?subject=' + encodeURIComponent('Merge Kitchen feedback') + '&body=' + encodeURIComponent(text);
+    document.getElementById('copy').value = text;
+    form.hidden = true;
+    document.getElementById('fallback').hidden = false;
+    window.scrollTo(0, 0);
+  }
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    if (form.elements.website.value) return; // honeypot
+    var d = collect();
+    var status = document.getElementById('status');
+    if (!d.rating && !d.liked && !d.frustrated && !d.other) {
+      status.className = 'status warn';
+      status.textContent = 'Pick a star rating or write a line or two first.';
+      return;
+    }
+    if (!endpoint) { showFallback(d, false); return; }
+
+    var button = document.getElementById('submit');
+    button.disabled = true;
+    status.className = 'status';
+    status.textContent = 'Sending...';
+    send(d).then(function () {
+      form.hidden = true;
+      document.getElementById('thanks').hidden = false;
+      window.scrollTo(0, 0);
+    }).catch(function () {
+      button.disabled = false;
+      status.textContent = '';
+      showFallback(d, true);
+    });
+  });
+})();
+</script>
+</body>
+</html>
