@@ -36,9 +36,11 @@
   </style>
 </head>
 <body>
-  <!-- ITCH_EMBED_SRC comes from the game's itch page: Edit project -> Distribute -> Embed.
-       The color is the frame itch paints around the game while it loads; kept the same brown as this page.  -->
-  <iframe id="game" src="https://itch.io/embed-upload/19108637?color=54321a" allow="autoplay; fullscreen; gamepad" allowfullscreen></iframe>
+  <!-- The game's own HTML on itch's CDN, not the itch.io/embed-upload widget: the widget is a
+       desktop layout with its own toolbar and does not fill a phone screen. The path is
+       <upload id>-<build id>, and the build id changes on every release, so tools/release.sh in the
+       game repo rewrites this src after each itch push. Do not edit the URL by hand. -->
+  <iframe id="game" src="https://html-classic.itch.zone/html/19108637-1951152/index.html" allow="autoplay; fullscreen; gamepad" allowfullscreen></iframe>
   <noscript><div id="fallback">Merge Kitchen needs JavaScript. <a href="https://aradicaldreamer.itch.io/mergekitchen">Play on itch.io</a></div></noscript>
 </body>
 </html>
