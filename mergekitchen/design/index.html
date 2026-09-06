@@ -84,7 +84,7 @@
       color: var(--cream);
       padding: 34px 44px 26px;
       display: grid;
-      grid-template-columns: 1fr auto;
+      grid-template-columns: 1fr auto auto;
       gap: 12px 32px;
       align-items: end;
       border-bottom: 6px solid var(--gold);
@@ -117,6 +117,36 @@
       opacity: .85;
     }
     .band .stamp strong { color: var(--gold); font-weight: 700; }
+    .band .shot {
+      display: block;
+      width: 132px;
+      height: auto;
+      border-radius: 12px;
+      border: 3px solid var(--gold);
+      box-shadow: 0 10px 24px rgba(0,0,0,.4);
+    }
+
+    /* Chain strip: one real chain, tier by tier */
+    .chain {
+      list-style: none;
+      padding: 10px 10px 8px;
+      margin: 10px 0 0;
+      display: grid;
+      grid-template-columns: repeat(8, 1fr);
+      gap: 4px;
+      background: var(--paper-deep);
+      border: 1px solid var(--rule);
+      border-radius: 8px;
+    }
+    .chain li { margin: 0; text-align: center; font-size: 11px; line-height: 1.2; color: var(--ink-soft); min-width: 0; }
+    .chain img { display: block; width: 100%; max-width: 64px; height: auto; margin: 0 auto 4px; }
+    .chain b { display: block; color: var(--ink); font-weight: 700; font-size: 11px; }
+    .chain-caption { font-size: 12px; color: var(--ink-soft); margin: 6px 0 0; }
+
+    /* The regulars */
+    .faces { display: flex; flex-wrap: wrap; gap: 6px; margin: 10px 0 0; padding: 0; list-style: none; }
+    .faces li { margin: 0; }
+    .faces img { display: block; width: 44px; height: 44px; border-radius: 50%; background: var(--paper-deep); border: 2px solid var(--rule); }
 
     /* Fact strip under the band */
     .facts {
@@ -263,6 +293,7 @@
       .band { grid-template-columns: 1fr; padding: 26px 22px 20px; }
       .band .stamp { text-align: left; }
       .band h1 { font-size: 36px; }
+      .chain { grid-template-columns: repeat(4, 1fr); }
       .facts { grid-template-columns: 1fr 1fr; }
       .facts div:first-child { padding-left: 18px; }
       .facts div:nth-child(2n) { border-right: 0; }
@@ -286,6 +317,9 @@
       .band { padding: 18px 24px 14px; }
       .band h1 { font-size: 30px; }
       .band .tagline { font-size: 13px; }
+      .band .shot { width: 96px; }
+      .chain img { max-width: 44px; }
+      .faces img { width: 32px; height: 32px; }
       .col { padding: 14px 24px 0; }
       section { margin-bottom: 12px; }
       .loop li, .modes, .kv, footer { font-size: 10.5px; }
@@ -301,13 +335,14 @@
     <div>
       <p class="eyebrow">Campervan Games · Game design brief</p>
       <h1>Merge Kitchen</h1>
-      <p class="tagline">A cosy merge-and-cook game about travel and good food. Grow ingredients on the board, cook at your stations, and feed the regulars who drop by.</p>
+      <p class="tagline">A cosy merge-and-cook game about travel and good food. Merge ingredients on the board, cook at your stations, and feed the regulars who drop by.</p>
     </div>
     <div class="stamp">
       <strong>Prototype v0.1</strong> · September 2026<br>
       Working title; final name to be decided<br>
       Design and direction: Matthew Deline
     </div>
+    <img class="shot" src="img/board.jpg" width="360" height="731" alt="The merge board: a grid of ingredients under two cooking stations and a row of customer orders">
   </header>
 
   <dl class="facts">
@@ -324,7 +359,7 @@
       <section>
         <h2>Concept</h2>
         <p>You run a small kitchen on the road. Every world is a destination with its own cuisine: its ingredients, its dishes, and the people who come in hungry. The board is where ingredients grow, the stations are where they become food, and the order row is who you are cooking for.</p>
-        <p>The long-term vision is <em>Parts Unknown</em> or <em>Somebody Feeds Phil</em> as a merge game: each place is about the people as much as the food. The demo carries the food; the characters and their stories are the next layer.</p>
+        <p>The long-term vision is Anthony Bourdain's <em>Parts Unknown</em> or <em>Somebody Feeds Phil</em> as a merge game: each place is about the people as much as the food. The demo carries the food; the characters and their stories are the next layer.</p>
       </section>
 
       <section>
@@ -347,6 +382,17 @@
           <li><b>Unlock</b>Finish the level's ten orders to open the next level and collect its new generator.</li>
         </ol>
         <p class="loop-note">The board is a 7 by 9 grid and persists across levels, so a kitchen you have built keeps paying off. Items can be swapped, parked in the inventory, or deleted with a four-second undo. Energy refills at one point every two minutes to a cap of 100, and keeps refilling while the game is closed, as do cooks in progress.</p>
+        <ol class="chain" aria-label="The Wheat chain, tier 1 to tier 8">
+          <li><img src="img/wheat-1.png" width="192" height="192" alt=""><b>1</b>Flour</li>
+          <li><img src="img/wheat-2.png" width="192" height="192" alt=""><b>2</b>Dough</li>
+          <li><img src="img/wheat-3.png" width="192" height="192" alt=""><b>3</b>Flatbread</li>
+          <li><img src="img/wheat-4.png" width="192" height="192" alt=""><b>4</b>Baked bread</li>
+          <li><img src="img/wheat-5.png" width="192" height="192" alt=""><b>5</b>Pasta dough</li>
+          <li><img src="img/wheat-6.png" width="192" height="192" alt=""><b>6</b>Fresh pasta</li>
+          <li><img src="img/wheat-7.png" width="192" height="192" alt=""><b>7</b>Artisan bread</li>
+          <li><img src="img/wheat-8.png" width="192" height="192" alt=""><b>8</b>Puff pastry</li>
+        </ol>
+        <p class="chain-caption">One of the twenty chains, the Wheat chain, tier by tier. Two of any tier merge into one of the next.</p>
       </section>
 
       <section>
@@ -388,6 +434,18 @@
           <dt>Generators</dt><dd>10 themed sources (Pantry, Fridge &amp; Deli, Brew Bar, Grill Basket, Bar Cart...)</dd>
           <dt>Customers</dt><dd>10 regulars with portraits, dealt so no level repeats a face</dd>
         </dl>
+        <ul class="faces" aria-label="The ten regulars">
+          <li><img src="img/customer-01.png" width="128" height="128" alt="Marguerite"></li>
+          <li><img src="img/customer-02.png" width="128" height="128" alt="Hank"></li>
+          <li><img src="img/customer-03.png" width="128" height="128" alt="Ivy"></li>
+          <li><img src="img/customer-04.png" width="128" height="128" alt="Kenji"></li>
+          <li><img src="img/customer-05.png" width="128" height="128" alt="Priya"></li>
+          <li><img src="img/customer-06.png" width="128" height="128" alt="Finn"></li>
+          <li><img src="img/customer-07.png" width="128" height="128" alt="Walter"></li>
+          <li><img src="img/customer-08.png" width="128" height="128" alt="Astrid"></li>
+          <li><img src="img/customer-09.png" width="128" height="128" alt="Dimitri"></li>
+          <li><img src="img/customer-10.png" width="128" height="128" alt="Nia"></li>
+        </ul>
       </section>
 
       <section>
@@ -419,9 +477,7 @@
         <h2>Open questions</h2>
         <ul>
           <li>Casual or Rush as the headline mode, and whether the last level loops or ends.</li>
-          <li>Does an order need a visible satisfaction value feeding a pass track, as the references have?</li>
-          <li>World select, tickets and souvenirs: build before or after the demo goes out?</li>
-          <li>Characters and dialogue, which the theme depends on and nothing yet supports.</li>
+          <li>Characters and dialogue: the theme depends on them, and nothing yet supports them.</li>
         </ul>
       </section>
 
