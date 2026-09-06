@@ -137,14 +137,13 @@
     <!-- Filled from the query string by the game; harmless when opened directly. -->
     <input type="hidden" name="version" id="version">
     <input type="hidden" name="platform" id="platform">
-    <input type="hidden" name="device" id="device">
     <input type="hidden" name="page" id="page">
     <!-- Honeypot: bots fill everything, people never see it. -->
     <div class="hp" aria-hidden="true"><label>Website <input type="text" name="website" tabindex="-1" autocomplete="off"></label></div>
 
     <button class="primary" type="submit" id="submit">Send feedback</button>
     <div class="status" id="status" role="status" aria-live="polite"></div>
-    <p class="small">Anonymous: no account, no email, no tracking. We only see what's on this page, plus your browser and screen size so bugs are easier to pin down.</p>
+    <p class="small">Anonymous: no account, no email, no tracking. We only see what's on this page.</p>
   </form>
 
   <section class="card" id="thanks" hidden>
@@ -180,7 +179,6 @@
   if (/^\d+$/.test(level)) document.getElementById('level').value = level;
   document.getElementById('version').value = version;
   document.getElementById('platform').value = platform;
-  document.getElementById('device').value = navigator.userAgent + ' | ' + screen.width + 'x' + screen.height + ' @' + (window.devicePixelRatio || 1);
   document.getElementById('page').value = location.href;
 
   var bits = [];
@@ -200,7 +198,7 @@
   // ---- collect ----
   function collect() {
     var d = {};
-    ['rating', 'mode', 'wouldPlay', 'liked', 'frustrated', 'other', 'level', 'version', 'platform', 'device', 'page'].forEach(function (k) {
+    ['rating', 'mode', 'wouldPlay', 'liked', 'frustrated', 'other', 'level', 'version', 'platform', 'page'].forEach(function (k) {
       var el = form.elements[k];
       d[k] = el ? (el.value || '').trim() : '';
     });
@@ -218,8 +216,7 @@
       '',
       'Enjoyed most:', d.liked || '-', '',
       'Confusing / frustrating / missing:', d.frustrated || '-', '',
-      'Anything else:', d.other || '-', '',
-      'Device: ' + d.device
+      'Anything else:', d.other || '-'
     ].join('\n');
   }
 

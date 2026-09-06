@@ -42,11 +42,11 @@ Apps Script web apps cannot answer a CORS preflight, so the page sends the JSON 
 ## Fields
 
 `rating` (1-5), `mode` (casual/rush/both), `wouldPlay` (yes/maybe/no), `liked`, `frustrated`,
-`other`, `level`, plus context: `version`, `platform`, `device` (user agent and screen), `page`
-(the full URL the form was opened with), `submittedAt`. A hidden `website` field is a honeypot -
-anything that fills it is dropped client-side.
+`other`, `level`, plus context: `version`, `platform` (Unity's platform name, e.g. WebGLPlayer),
+`page` (the full URL the form was opened with), `submittedAt`. A hidden `website` field is a
+honeypot - anything that fills it is dropped client-side.
 
-**Deliberately anonymous.** There is no email or name field, so nothing personal is collected and
-no retention policy is needed for it (owner's call, 2026-09-06). Don't add one without deciding
-that first. The user agent is the closest thing to identifying data and is kept only because it
-is what makes a bug report reproducible.
+**Deliberately anonymous.** No email, no name, no user agent or screen size: nothing personal is
+collected, so no retention policy is needed for it (owner's call, 2026-09-06). Don't add any of
+them back without deciding that first. `platform` is the only device context kept, and it comes
+from the game's query string rather than the browser.

@@ -17,10 +17,10 @@
 var SHEET_NAME = 'Feedback';
 var NOTIFY_EMAIL = 'contact@campervangames.com'; // '' to switch notifications off
 
-// Deliberately no email or other identifier: submissions are anonymous, so there is nothing
-// personal to retain or a policy to write for it (owner, 2026-09-06).
+// Deliberately no email, user agent or other identifier: submissions are anonymous, so there
+// is nothing personal to retain or a policy to write for it (owner, 2026-09-06).
 var COLUMNS = ['submittedAt', 'rating', 'mode', 'wouldPlay', 'level', 'liked', 'frustrated', 'other',
-               'version', 'platform', 'device', 'page'];
+               'version', 'platform', 'page'];
 
 function doGet() {
   return ContentService.createTextOutput('Merge Kitchen feedback: ok');
